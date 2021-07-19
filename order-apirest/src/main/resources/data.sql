@@ -1,0 +1,11 @@
+truncate table products;
+INSERT INTO products  (name,price) VALUES('product 1', 100);
+INSERT INTO products  (name,price) VALUES('product 2', 200);
+INSERT INTO products  (name,price) VALUES('product 3', 300);
+INSERT INTO products  (name,price) VALUES('product 4', 400);
+INSERT INTO products  (name,price) VALUES('product 5', 500);
+INSERT INTO products  (name,price) VALUES('product 6', 600);
+INSERT INTO products  (name,price) VALUES('product 7', 700);
+INSERT INTO products  (name,price) VALUES('product 8', 800);
+INSERT INTO products  (name,price) VALUES('product 9', 900);
+INSERT INTO products  (name,price) VALUES('product 10', 1000);
