@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codmind.orderapi.converters.ProductConverter;
+import com.codmind.orderapi.dtos.ProductDTO;
 import com.codmind.orderapi.entities.Product;
-import com.codmind.orderapi.repositories.ProductRepository;
 import com.codmind.orderapi.services.ProductService;
 
 @RestController
@@ -24,38 +25,49 @@ public class ProductsController {
 	@Autowired 
 	ProductService prdService;
 	
+	private ProductConverter prdConverter = new ProductConverter();
+	
 	@GetMapping(value = "/hello")
 	public String hello() {
 		return "Hola Mundo";
 	}
 	
 	@GetMapping(value = "products")
-	public ResponseEntity<List<Product>>  findAll(){
+	public ResponseEntity<List<ProductDTO>>  findAll(){
+		
 		List<Product> products = prdService.findAll();
-		return new ResponseEntity<List<Product>>(products,HttpStatus.OK);
+		List<ProductDTO> productsDTO = prdConverter.fromEntity(products);
+		return new ResponseEntity<List<ProductDTO>>(productsDTO,HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/products/{id}")
-	public ResponseEntity<Product> findById(@PathVariable("id") Long id){
+	public ResponseEntity<ProductDTO> findById(@PathVariable("id") Long id){
 		Product product = prdService.findById(id);		
-		return  new ResponseEntity<Product>(product, HttpStatus.OK);
+		ProductDTO productDTO = prdConverter.fromEntity(product);
+		return  new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/products")
-	public ResponseEntity<Product> create(@RequestBody Product product) {
-		Product newProduct = prdService.create(product);
-		return new ResponseEntity<Product>(newProduct,HttpStatus.OK);
+	public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO product) {
+		
+		Product newProduct = prdService.create(prdConverter.fromDTO(product));
+		ProductDTO productDTO = prdConverter.fromEntity(newProduct);
+		return new ResponseEntity<ProductDTO>(productDTO,HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/products")
-	public ResponseEntity<Product> update(@RequestBody Product product){
-		Product updateProd = prdService.findById(product.getId());
-		return new ResponseEntity<Product>(updateProd,HttpStatus.OK);
+	public ResponseEntity<ProductDTO> update(@RequestBody ProductDTO product){
+
+		
+		Product updatablePrd =  prdService.update(prdConverter.fromDTO(product));
+		ProductDTO productDTO = prdConverter.fromEntity(updatablePrd);
+		return new ResponseEntity<ProductDTO>(productDTO,HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/products/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable("id") Long id){
-		Product product = prdService.findById(id);
+		
+		prdService.deleteById(id);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 }
