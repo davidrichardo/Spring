@@ -3,6 +3,7 @@ package com.codmind.orderapi.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,7 @@ public class ProductController {
 	}
 	
 	@PutMapping(value = "/products")
-	public Product update(Product productUpdate) {
+	public Product update(@RequestBody Product productUpdate) {
 		for(Product product:this.products) {
 			if(product.getId().longValue()==productUpdate.getId().longValue()) {
 				product.setName(productUpdate.getName());
@@ -62,8 +63,21 @@ public class ProductController {
 		return product;
 	}
 //	
-//	public void delete(Product product) {
-//		
-//	}
+	@DeleteMapping(value = "/products/{id}")
+	public void delete(@PathVariable("id") Long productDelete) {
+		Product deleteProduct = null;
+		for(Product product:this.products) {
+			if(product.getId().longValue() == productDelete.longValue()) {
+				deleteProduct = product;
+				break;
+			}
+		}
+		
+		if(deleteProduct == null) throw new RuntimeException("NO existe el producto");
+		
+		this.products.remove(deleteProduct);
+		
+		
+	}
 	
 }
