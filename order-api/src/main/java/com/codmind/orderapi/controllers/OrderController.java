@@ -27,7 +27,8 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 
-	private OrderConverter converter = new OrderConverter();
+	@Autowired
+	private OrderConverter converter;
 	
 	@GetMapping(value = "/orders")
 	public ResponseEntity<WrapperResponse<List<OrderDTO>>> findAll(@RequestParam(name = "pageNumber",required = false,defaultValue = "0")int pageNumber,
@@ -35,7 +36,7 @@ public class OrderController {
 		Pageable page = PageRequest.of(pageNumber, pageSize);
 		List<Order> orders = orderService.findAll(page);
 		
-		OrderConverter converter = new OrderConverter();
+		
 		
 		return new WrapperResponse(true, "success", converter.fromEntity(orders)).createResponse();
 		
@@ -51,14 +52,14 @@ public class OrderController {
 	@PostMapping(value = "/orders")
 	public ResponseEntity<WrapperResponse<OrderDTO>>create(@RequestBody OrderDTO order){
 		
-		Order newOrder =null;
+		Order newOrder =orderService.save(converter.fromDTO(order));
 		return new WrapperResponse(true, "success", converter.fromEntity(newOrder)).createResponse();
 	}
 	
 	@PutMapping(value = "/orders")
 	public ResponseEntity<WrapperResponse<OrderDTO>>update(@RequestBody OrderDTO order){
 		
-		Order newOrder =null;
+		Order newOrder =orderService.save(converter.fromDTO(order));
 		return new WrapperResponse(true, "success", converter.fromEntity(newOrder)).createResponse();
 	}
 	

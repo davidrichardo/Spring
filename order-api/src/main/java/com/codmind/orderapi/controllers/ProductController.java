@@ -27,7 +27,8 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	private ProductConverter productConverter = new ProductConverter();
+	@Autowired
+	private ProductConverter productConverter;
 
 //	List<Product> products = new ArrayList<>();
 	

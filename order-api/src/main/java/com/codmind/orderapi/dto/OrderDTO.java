@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.codmind.orderapi.entities.OrderLine;
+import com.codmind.orderapi.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +27,7 @@ public class OrderDTO {
 	private Double total;
 	
 	private List<OrderLineDTO> lines;
+	
+	private UserDTO user;
 
 }

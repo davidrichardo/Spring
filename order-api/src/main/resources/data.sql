@@ -1,4 +1,4 @@
-
+truncate 
 
 INSERT INTO products (name,price) VALUES('PRODUCTO 1',100);
 INSERT INTO products (name,price) VALUES('PRODUCTO 2',200);

@@ -50,7 +50,7 @@ public class OrderLine {
 	@ManyToOne
 	@JoinColumn(name = "FK_ORDER",nullable = false)
 	private Order order;
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -67,5 +67,9 @@ public class OrderLine {
 		OrderLine other = (OrderLine) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+
+
+
 
 }

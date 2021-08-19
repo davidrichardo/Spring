@@ -11,11 +11,15 @@ import com.codmind.orderapi.dto.OrderLineDTO;
 import com.codmind.orderapi.entities.Order;
 import com.codmind.orderapi.entities.OrderLine;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class OrderConverter extends AbstractConverter<Order, OrderDTO>{
 
 	
-	private static final DateTimeFormatter datetimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-	private ProductConverter productConverter = new ProductConverter();
+	private  DateTimeFormatter datetimeFormatter;
+	private ProductConverter productConverter;
+	private UserConverter userConverter;
 	
 	
 	@Override
@@ -29,6 +33,7 @@ public class OrderConverter extends AbstractConverter<Order, OrderDTO>{
 				.lines(lines)
 				.regDate(entity.getRegDate().format(datetimeFormatter))
 				.total(entity.getTotal())
+				.user(userConverter.fromEntity(entity.getUser()))
 				.build();
 	}
 
@@ -42,6 +47,7 @@ public class OrderConverter extends AbstractConverter<Order, OrderDTO>{
 		return Order.builder()
 				.id(dto.getId())
 				.lines(lines)
+				.user(userConverter.fromDTO(dto.getUser()))
 				.total(dto.getTotal())
 				.build();
 		// TODO Auto-generated method stub
